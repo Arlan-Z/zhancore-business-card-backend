@@ -2,8 +2,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Contact;
 use App\Models\Project;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -45,16 +48,26 @@ class MainController extends Controller
         return response()->json($projects);
     }
 
-    public function storeContactDetails(): JsonResponse
+    public function storeContactDetails(Request $request): JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'reviews' => [
-                ['message' => 'Good Company!'],
-                ['message' => 'Good Service!'],
-                ['message' => 'Good Support!'],
-                ['message' => 'Good Something!'],
-            ]
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'details' => 'required|string',
+                'message' => 'required|string',
+            ]);
+
+            $contact = Contact::create($validated);
+
+            return response()->json([
+                'success' => true,
+                'contact' => $contact,
+            ], 201);
+        }
+        catch (Exception $exception) {
+            return response()->json([
+                'message' => 'Internal server error',
+            ], 500);
+        }
     }
 }
