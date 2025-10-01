@@ -1,0 +1,41 @@
+# version: "3.8"
+services:
+  backend:
+    build:
+      context: .
+    container_name: zhancore-business-card-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_HOST: db
+      DB_PORT: 3306
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+
+  db:
+    image: mysql:8.0
+    container_name: zhancore-business-card-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
