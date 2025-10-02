@@ -22,7 +22,7 @@ class MainController extends Controller
             return [
                 'name' => $client->name,
                 'review' => $client->review,
-                'imageUrl' => $client->imageUrl,
+                'imageUrl' => asset($client->imageUrl),
             ];
         });
 
@@ -41,7 +41,7 @@ class MainController extends Controller
             return [
                 'name' => $project->name,
                 'review' => $project->review,
-                'imageUrl' => $project->imageUrl,
+                'imageUrl' => asset($project->imageUrl),
             ];
         });
 

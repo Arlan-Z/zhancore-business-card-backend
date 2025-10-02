@@ -21,8 +21,8 @@ class ProjectFactory extends Factory
 
         return [
             'name' => $this->faker->name(),
-            'review' => $this->faker->paragraph(),
-            'imageUrl' => '/public/images/projects/' . $this->faker->unique()->randomElement($images),
+            'description' => $this->faker->paragraph(),
+            'imageUrl' => '/images/projects/' . $this->faker->unique()->randomElement($images),
         ];
     }
 }

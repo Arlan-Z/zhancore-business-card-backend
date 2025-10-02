@@ -22,7 +22,7 @@ class ClientFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'review' => $this->faker->paragraph(),
-            'imageUrl' => '/public/images/clients/' . $this->faker->unique()->randomElement($images),
+            'imageUrl' => '/images/clients/' . $this->faker->unique()->randomElement($images),
         ];
     }
 }
